@@ -1,3 +1,4 @@
+import { ApiResponse } from "../response.dto";
 import { Repository } from "typeorm";
 import { VoteController } from "./vote.controller";
 import Vote from "./vote.entity";
@@ -25,11 +26,13 @@ describe('VoteController', () => {
       vote.cat = new Date();
       vote.uat = new Date();
 
-      const result = [ vote ];
-
+      const result = [vote];
       jest.spyOn(voteService, 'findAll').mockImplementation(async () => result);
+      const output = await voteController.listAll();
 
-      expect(await voteController.listAll()).toBe(result);
+      expect(output).toBeInstanceOf(ApiResponse);
+      expect(output).toHaveProperty('data');
+      expect(output.data).toBe(result);
     });
   });
 });
