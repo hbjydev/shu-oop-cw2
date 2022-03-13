@@ -6,6 +6,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export interface VoteOption {
+  name: string;
+  description?: string;
+}
+
 @Entity()
 class Vote {
   @PrimaryGeneratedColumn()
@@ -22,6 +27,9 @@ class Vote {
 
   @Column()
   public endDate: Date;
+
+  @Column('jsonb', { default: [] })
+  public options: VoteOption[];
 
   @CreateDateColumn()
   public cat: Date;

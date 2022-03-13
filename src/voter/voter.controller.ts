@@ -20,12 +20,9 @@ export class VoterController {
       const { token } = await this.voterService.create(
         voterTokenRequest.voterId,
       );
-      response.status(201).json(
-        new ApiResponse('Successfully generated a Voter token.', {
-          eat: token.eat,
-          token: token.token,
-        }),
-      );
+      response
+        .status(201)
+        .json(new ApiResponse('Successfully generated a Voter token.', token));
     } catch (error) {
       if (error instanceof QueryFailedError) {
         if (

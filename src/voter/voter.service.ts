@@ -1,28 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { VoterToken } from 'src/security/entities/votertoken.entity';
-import { SecurityService } from 'src/security/security.service';
+import { AuthService } from 'src/auth/auth.service';
 import { Repository } from 'typeorm';
 import Voter from './voter.entity';
 
 type VoterCreated = {
   voter: Voter;
-  token: VoterToken;
+  token: string;
 };
 
 @Injectable()
 export class VoterService {
   public constructor(
     @InjectRepository(Voter) private repository: Repository<Voter>,
-    private securityService: SecurityService,
+    private authService: AuthService,
   ) {}
 
   public async create(voterId: string): Promise<VoterCreated> {
     let voter = await this.repository.create({ voterId });
     voter = await this.repository.save(voter);
 
-    const token = await this.securityService.createVoterToken(voter);
+    const token = await this.authService.voterLogin(voter);
 
     return { voter, token };
+  }
+
+  public async find(id: number): Promise<Voter> {
+    return this.repository.findOne(id);
   }
 }
