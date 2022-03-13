@@ -1,8 +1,8 @@
-import { ApiResponse } from "../response.dto";
-import { Repository } from "typeorm";
-import { VoteController } from "./vote.controller";
-import Vote from "./vote.entity";
-import { VoteService } from "./vote.service";
+import { ApiResponse } from '../response.dto';
+import { Repository } from 'typeorm';
+import { VoteController } from './vote.controller';
+import Vote from './vote.entity';
+import { VoteService } from './vote.service';
 
 describe('VoteController', () => {
   let voteRepository: Repository<Vote>;
