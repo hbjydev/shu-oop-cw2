@@ -1,0 +1,88 @@
+@startuml "Class Diagram"
+set namespaceSeparator .
+
+annotation nestjs.common.Controller
+hide nestjs.common.Controller members
+annotation nestjs.common.Injectable
+hide nestjs.common.Injectable members
+
+class typeorm.Repository
+hide typeorm.Repository members
+annotation typeorm.Entity
+hide typeorm.Entity members
+
+namespace voter {
+  class VoterController {
+    -service: VoterService
+
+    +getToken(body)
+  }
+  nestjs.common.Controller -- VoterController
+
+  class VoterService {
+    -securityService: security.SecurityService
+    -repository: Repository<Voter>
+
+    +create(voterId): Voter
+  }
+  nestjs.common.Injectable -- VoterService
+  VoterService -- VoterController
+  VoterService -- security.SecurityService
+
+  VoterService -- typeorm.Repository
+  (VoterService, typeorm.Repository) -- Voter
+
+  class Voter {
+    +id: number
+    +voterId: string
+    +cat: date
+    +uat: date
+  }
+  Voter -- security.VoterToken
+  Voter -- typeorm.Entity
+}
+
+namespace vote {
+  class VoteController {
+    -service: VoteService
+
+    +getAll()
+    +getOne(id)
+    +create(id)
+    +count(id)
+    +update(id)
+    +delete(id)
+  }
+  nestjs.common.Controller -- vote.VoteController
+  VoteController -- VoteService
+
+  class VoteService {
+    -repository: Repository<Vote>
+  }
+  nestjs.common.Injectable -- VoteService
+  VoteService -- typeorm.Repository
+  (VoteService, typeorm.Repository) -- Vote
+
+  class Vote {}
+  Vote -- typeorm.Entity
+}
+
+namespace security {
+  class VoterToken {
+    +token: string
+    +voter: Voter
+    +cat: date
+    +uat: date
+  }
+
+  class SecurityService {
+    -voterTokenRepository: Repository<VoterToken>
+    +createVoterToken(voter)
+    +getVoterToken(token)
+  }
+  SecurityService -- nestjs.common.Injectable
+  SecurityService -- typeorm.Repository
+  (SecurityService, typeorm.Repository) -- vote.Vote
+}
+
+@enduml

@@ -1,16 +1,16 @@
-import { Module } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { getConnectionOptions } from "typeorm";
+import { Module } from '@nestjs/common';
+// import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { getConnectionOptions } from 'typeorm';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
+      // imports: [ConfigModule],
+      // inject: [ConfigService],
 
-      useFactory: async (configService: ConfigService) => ({
-        ...await getConnectionOptions(),
+      useFactory: async (/*configService: ConfigService*/) => ({
+        ...(await getConnectionOptions()),
       }),
     }),
   ],
@@ -18,4 +18,3 @@ import { getConnectionOptions } from "typeorm";
   providers: [],
 })
 export class DatabaseModule {}
-

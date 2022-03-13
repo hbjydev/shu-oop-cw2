@@ -4,11 +4,15 @@ import * as Joi from 'joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
+import { SecurityModule } from './security/security.module';
 import { VoteModule } from './vote/vote.module';
+import { VoterModule } from './voter/voter.module';
 
 @Module({
   imports: [
     VoteModule,
+    VoterModule,
+    SecurityModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         PORT: Joi.number(),

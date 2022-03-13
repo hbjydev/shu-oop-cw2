@@ -1,0 +1,4 @@
+---
+tsconfig: tsconfig.json
+output: docs/compodoc
+name: Votebox Backend Documentation
