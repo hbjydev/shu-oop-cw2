@@ -63,7 +63,15 @@ namespace vote {
   VoteService -- typeorm.Repository
   (VoteService, typeorm.Repository) -- Vote
 
-  class Vote {}
+  class Vote {
+    +id: number
+    +title: string
+    +description: string;
+    +startDate: date;
+    +endDate: date;
+    +cat: date;
+    +uat: date;
+  }
   Vote -- typeorm.Entity
 }
 

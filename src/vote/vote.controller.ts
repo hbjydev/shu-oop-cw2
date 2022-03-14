@@ -82,7 +82,7 @@ export class VoteController {
 
   @UseGuards(JwtAuthGuard, IsUserGuard, RoleGuard)
   @Roles(Role.admin)
-  @Post()
+  @Post('/')
   public async create(@Body(ValidationPipe) body: CreateVoteDto) {
     const vote = await this.voteService.create(body);
     return new ApiResponse('Successfully created vote', vote);
@@ -94,5 +94,14 @@ export class VoteController {
   public async delete(@Param('id', ParseIntPipe) id: number) {
     await this.voteService.deleteById(id);
     return new ApiResponse('Successfully deleted vote.', null);
+  }
+
+  @UseGuards(JwtAuthGuard, IsVoterGuard)
+  @Post('/cast')
+  public async vote(@Param('id', ParseIntPipe) id: number, @Body() body) {
+    const vote = await this.voteService.find(id);
+    const { options } = vote;
+    const option = options.find((v) => v.name == body.option);
+    console.log(option);
   }
 }
