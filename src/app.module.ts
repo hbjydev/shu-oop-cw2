@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { BallotModule } from './ballot/ballot.module';
 import { DatabaseModule } from './database/database.module';
 import { UserModule } from './user/user.module';
 import { VoteModule } from './vote/vote.module';
@@ -14,6 +15,7 @@ import { VoterModule } from './voter/voter.module';
     UserModule,
     VoteModule,
     VoterModule,
+    BallotModule,
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         PORT: Joi.number(),

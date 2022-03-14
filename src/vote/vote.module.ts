@@ -9,5 +9,6 @@ import { VoteService } from './vote.service';
   imports: [TypeOrmModule.forFeature([Vote]), SecurityModule],
   providers: [VoteService],
   controllers: [VoteController],
+  exports: [VoteService],
 })
 export class VoteModule {}
